@@ -19,11 +19,17 @@ while True:
         break
     else:
         print('Enter error! Try again: ')
-print('Number of layers finished: ', cntCran)
 
-for i in range(1, cntCran//6+1):
+i = cntCran//6
+while i != cntCran//6+1:
     if i * 6 == cntCran:
+        print('Number of layers finished: ', cntCran)
         print(f'{i} {4*i} {i}')
+        break
+    else:
+        cntCran -= 2
+        i = cntCran//6
+
 
 
 
