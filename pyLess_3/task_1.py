@@ -7,7 +7,9 @@
 5
     1 2 3 4 5
     3
-    -> 1'''
+    -> 1
+    '''
+import numpy as np
 
 def checkInput(massege):
     while True:
@@ -20,4 +22,15 @@ def checkInput(massege):
 def createArray():
     N = checkInput('Enter count elements in array: ')
     arrList = [(i + 1) for i in range(N)]
-    return arrList
+    return np.array(arrList)
+
+def checkCount():
+    resArray = createArray()
+    X = checkInput('Enter the number you need: ')
+    count = 0
+    for i in resArray:
+        if i == X:
+            count += 1
+    return count
+
+print(checkCount())
