@@ -1,19 +1,21 @@
-'''Требуется вычислить, сколько раз встречается некоторое число X в массиве A[1..N].
+"""
+Требуется вычислить, сколько раз встречается некоторое число X в массиве A[1..N].
 Пользователь в первой строке вводит натуральное число N – количество элементов в массиве.
 В последующих  строках записаны N целых чисел Ai. Последняя строка содержит число X
 
 *Пример:*
 
 5
-    1 2 3 4 5
-    3
-    -> 1
-    '''
+1 2 3 4 5
+3
+-> 1
+"""
+
 import numpy as np
 
-def checkInput(massege):
+def checkInput(text):
     while True:
-        nmbr = input(massege)
+        nmbr = input(text)
         if nmbr.isdigit():
             return int(nmbr)
         else:
@@ -29,8 +31,17 @@ def checkCount():
     X = checkInput('Enter the number you need: ')
     count = 0
     for i in resArray:
-        if i == X:
-            count += 1
+        print(i)
+        if len(resArray) <= 9:
+            return 1
+        else:
+            nxtDig = i
+            while nxtDig != 0:
+                nxtDig = i % 10
+                if nxtDig == X:
+                    count += 1
+                i //= 10
     return count
 
 print(checkCount())
+
