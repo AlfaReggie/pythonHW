@@ -28,20 +28,22 @@ def createArray():
 
 def checkCount():
     resArray = createArray()
+    print(resArray)
     X = checkInput('Enter the number you need: ')
-    count = 0
-    for i in resArray:
-        print(i)
-        if len(resArray) <= 9:
-            return 1
-        else:
-            nxtDig = i
-            while nxtDig != 0:
-                nxtDig = i % 10
+    count = 1
+    if len(resArray) <= 9:
+        return 1
+    else:
+        resArray = resArray[9:]
+        for i in resArray:
+            numb = i
+            while numb != 0:
+                nxtDig = numb % 10
                 if nxtDig == X:
                     count += 1
-                i //= 10
+                numb //= 10
     return count
 
 print(checkCount())
+
 
