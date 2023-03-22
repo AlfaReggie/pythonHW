@@ -68,21 +68,21 @@ def thousand(rest, sex):
     return plural, name
 
 
-def num2text(num, main_units=((u'', u'', u'', u''), 'm')):
+def num2text(num, main_units=((u'', u'', u''), 'm')):
 
     _orders = (main_units,) + orders
     if num == 0:
-        return ' '.join((units[0], _orders[0][0][0][0][3])).strip()
+        return ' '.join((units[0], _orders[0][0][3])).strip()
 
     rest = abs(num)
     ord = 0
     name = []
     while rest > 0:
-        plural, nme = thousand(rest % 10000, _orders[ord][1])
+        plural, nme = thousand(rest % 1000, _orders[ord][1])
         if nme or ord == 0:
             name.append(_orders[ord][0][plural])
         name += nme
-        rest = int(rest / 10000)
+        rest = int(rest / 1000)
         ord += 1
     if num < 0:
         name.append(minus)
