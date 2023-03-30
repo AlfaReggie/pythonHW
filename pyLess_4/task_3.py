@@ -49,7 +49,7 @@ def thousand(rest, sex):
         prev = rest % x
         if x == 10 and use_teens:
             plural = 2
-            name.append(teens[cur])
+            name.insert(0, teens[cur])
         elif cur == 0:
             continue
         elif x == 10:
@@ -64,7 +64,8 @@ def thousand(rest, sex):
             else:
                 plural = 2
         else:
-            name.append(names[cur-1])
+            name.append( names[cur-1])
+        
     return plural, name
 
 
@@ -72,7 +73,7 @@ def num2text(num, main_units=((u'', u'', u''), 'm')):
 
     _orders = (main_units,) + orders
     if num == 0:
-        return ' '.join((units[0], _orders[0][0][3])).strip()
+        return ''.join(units[0],)
 
     rest = abs(num)
     ord = 0

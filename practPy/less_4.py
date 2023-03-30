@@ -1,4 +1,4 @@
-str_1 = 'a a a b c a a d c d a b';
+'''str_1 = 'a a a b c a a d c d a b';
 
 def twinCntr(str_1):
     str_1 = str_1.split(' ')
@@ -18,4 +18,19 @@ def twinCntr(str_1):
 
     print(temp)
 
-twinCntr(str_1)
+twinCntr(str_1)'''
+
+aN = [1, 2, 3]
+aM = [2, 5, 1]
+
+def rec_is(aN, aM, i):
+    if i == len(aM) - 1:
+        return aN
+    else:
+        if aN[i] in aM:
+            aN.remove(aN[i])
+            return rec_is(aN, aM, i)
+        else:
+            return rec_is(aN, aM, i + 1)
+
+print(rec_is(aN, aM, 0))
