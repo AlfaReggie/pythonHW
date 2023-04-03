@@ -7,7 +7,7 @@
 Вывод 126
 '''
 
-def recursion(a, b):
+def resFunc(a, b):
     print(f"All - {a, b}")
 
     if (a > b + 1):
@@ -15,12 +15,12 @@ def recursion(a, b):
         return 0
 
     if (a == 0 or b == 0):
-        print(f"True - {a, b}")
+        #print(f"True - {a, b}")
         return 1
 
-    return recursion(a, b - 1) + recursion(a - 1, b - 1)
+    return resFunc(a, b - 1) + resFunc(a - 1, b - 1)
 
-print(recursion(5, 8))
+print(resFunc(5, 8))
 
 """
 Назовем последовательность из 0 и 1, в которой никакие две единицы не стоят подряд, хорошей.

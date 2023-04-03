@@ -9,15 +9,19 @@
 '''
 
 n = 234523642345789812354678654323454919865
+diff = 10 ** round(len(str(n)) / 10)
 
-flag = True
-while n >= len(str(n)) * 10000:
-    a = n % 10000
-    n = (n // 10000) + a * 2
+def main(n, diff):
+    if n <= diff:
+        return n
+    while n >= diff:
+        #a = n % diff
+        return main(n // diff + (n % diff * 2), diff)
 
-print(n)
-print(n%7)
+if __name__ == "__main__":
+    numberRes = main(n, diff)
+    if numberRes % 7 == 0:
+        print("Делится")
+    else:
+        print("Не делится")
 
-s = '234523642345789812354678654323454919865'
-
-print(len(s))
