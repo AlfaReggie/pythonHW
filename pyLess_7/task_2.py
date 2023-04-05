@@ -31,6 +31,44 @@ def checkInput(message: str) -> int:
         print("Error!")
         return checkInput(f'{message}')
 
+def createMtrx():
+    param = {'cols': 0, 'rows': 0}
+    for p in param.keys():
+        param[p] = checkInput(f'Enter {p} matrix: ')
+    matriX = np.zeros((param['rows'], param['cols']))
+    return matriX
+
+def updateMtrx(f, i: int, j: int, matrix: np.array) -> float:
+    if j == matrix.shape[1]:
+        return matrix
+    else:
+        matrix[i, j] = f(i + 1, j + 1)
+    while i != matrix.shape[0] - 1:
+        return updateMtrx(f, i + 1, j, matrix)
+    return updateMtrx(f, 0, j + 1, matrix)
+
+def findElMtrx(matriX: np.array):
+    paramFindName = ['findCol', 'findRow']
+    paramFind = [0, 0]
+    for fn in range(len(paramFind)):
+        while True:
+            coord = checkInput(f'Enter {paramFindName[fn]} matrix: ')
+            if coord <= matriX.shape[fn]:
+                paramFind[fn] = coord
+                break
+            else:
+                print("Enter error!")
+    return f"Matrix:\n {matriX} \n\n Your find element: {matriX[paramFind[0] - 1, paramFind[1] - 1]}"
+
+def main():
+    return findElMtrx(updateMtrx(lambda x, y: x * y, 0, 0, createMtrx()))
+
+if __name__ == "__main__":
+    print(main())
+
+
+
+'''
 def mtrxF(creatElF, findElF):
     matriX = []
     param = {'rows': 0, 'cols': 0}
@@ -45,10 +83,11 @@ def mtrxF(creatElF, findElF):
     def findEl(f):
         paramFind = {'findRow': 0, 'findCol': 0}
         for fn in paramFind.keys():
-            paramFind[fn] = checkInput(f'Enter {fn} matrix: ')
+            nextCoord = checkInput(f'Enter {fn} matrix: ')
+            paramFind[fn] = nextCoord
         return f"\nFind element: {f(paramFind['findRow'] - 1, paramFind['findCol'] - 1, matriX)}"
     return f"{matriX}\n {findEl(findElF)}"
 
 
 
-print(mtrxF(lambda x, y: x * y, lambda x, y, matrix: matrix[x, y]))
+print(mtrxF(lambda x, y: x * y, lambda x, y, matrix: matrix[x, y]))'''
