@@ -12,13 +12,23 @@
     **Вывод:** Парам пам-пам
 '''
 
-vinnystr = 'пара-ра-рам рам-пам-папам па-ра-па-да'
 vowelsDict = ['а', 'о', 'и', 'ы', 'у', 'э']
 
-def cntVow():
-    cntRes = []
-    for i in vinnystr.split():
-        cntRes.append(sum(map(lambda x: 1 if x in vowelsDict else 0, i)))
-    return cntRes
+def cntVow(v, i, a) -> bool:
+    if i == len(v):
+        if len(set(a)) == 1:
+            return 'Парам пам-пам'
+        else:
+            return 'Пам парам'
+    a.append(sum(map(lambda x: 1 if x in vowelsDict else 0, v[i])))
+    return cntVow(v, i + 1, a)
 
-print(cntVow())
+def checkInput(message: str) -> int:
+    checkStr = input(message)
+    if len(checkStr) > 1:
+        return checkStr.split()
+    else:
+        print("Error! Can't less 1")
+        return checkInput(f'{message}')
+
+print(cntVow(checkInput('Enter verses V: '), 0, []))
