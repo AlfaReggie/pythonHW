@@ -85,8 +85,8 @@ def mtrxF(creatElF, findElF):
         for fn in paramFind.keys():
             nextCoord = checkInput(f'Enter {fn} matrix: ')
             paramFind[fn] = nextCoord
-        return f"\nFind element: {f(paramFind['findRow'] - 1, paramFind['findCol'] - 1, matriX)}"
-    return f"{matriX}\n {findEl(findElF)}"
+        return f"Find element: {f(paramFind['findRow'] - 1, paramFind['findCol'] - 1, matriX)}"
+    return f"{matriX} {findEl(findElF)}"
 
 
 
