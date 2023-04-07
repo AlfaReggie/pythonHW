@@ -90,4 +90,6 @@ def mtrxF(creatElF, findElF):
 
 
 
+
+
 print(mtrxF(lambda x, y: x * y, lambda x, y, matrix: matrix[x, y]))'''
