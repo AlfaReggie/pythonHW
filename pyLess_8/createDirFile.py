@@ -6,7 +6,6 @@
 
 import os
 
-
 def checkInput(message: str) -> int:
     checkNum = input(message)
     if checkNum.replace("-", '').isdigit():
@@ -17,6 +16,8 @@ def checkInput(message: str) -> int:
     else:
         print("Error!")
         return checkInput(f'{message}')
+
+
 
 def ensure_dir(dirname):
     return os.makedirs(dirname, exist_ok=True)
@@ -49,33 +50,12 @@ def choiseCommand(flag):
     for i, val in enumerate(lstCmd[flag]):
         print(f"{i + 1}: {val}")
 
-def main(flag):
-    if flag == False:
-        return
-    while True:
-        ensure_dir('directory')
-        choiseCommand(0)
-        userAnswMain = checkInput('\nChoise command:')
-        if userAnswMain == 1:
-            print('\nYour files')
-            showDir('directory')
-            print('\n')
-            choiseCommand(userAnswMain)
-            userAnsw = checkInput('\nChoise command: ')
-            if userAnsw == 1:
-                showDir('directory')
-                userChoise = checkInput("Enter number file: ")
-                pathFile = f"directory/{openDir()[userChoise - 1]}"
-                openFile(pathFile)
-                choiseCommand(2)
-                userAnswFile = checkInput('\nChoise command: ')
-                if userAnswFile == 1:
-                    writeInF(pathFile)
+def menu(flag):
+    pass
 
-
-if __name__ == '__main__':
-    main(True)
-
+def main() -> None:
+    print('Start program')
+    print(filePath('directory', '1.txt'))
 
 '''answ_user = input("Enter y if you want create file and write anything in file: ")
 if answ_user.lower() == 'y':
