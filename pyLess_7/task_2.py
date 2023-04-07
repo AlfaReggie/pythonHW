@@ -42,7 +42,8 @@ def updateMtrx(f, i: int, j: int, matrix: np.array) -> float:
     if j == matrix.shape[1]:
         return matrix
     else:
-        matrix[i, j] = f(i + 1, j + 1)
+        matrix[i, j] = f(
+            i + 1, j + 1)
     while i != matrix.shape[0] - 1:
         return updateMtrx(f, i + 1, j, matrix)
     return updateMtrx(f, 0, j + 1, matrix)
