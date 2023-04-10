@@ -4,7 +4,7 @@
 функционал для изменения и удаления данных
 '''
 
-import os
+import os, re
 
 def checkInputStr(message: str) -> int:
     checkNum = input(message)
@@ -31,16 +31,6 @@ def ensureDir(dirname):
 def createFile(nameFile, dirName):
     return open(os.path.join(os.path.dirname(__file__), dirName, f'{nameFile}.txt'), 'w')
 
-def showDir(dirname) -> None:
-    print('Files: ')
-    if len(os.listdir(dirname)) < 1:
-        print('Not files')
-        choiseCommand(2)
-    else:
-        for i, val in enumerate(os.listdir(dirname)):
-            print(f"{i + 1} - {val}")
-        choiseCommand(1)
-
 def deleteFile(fileName):
     return os.remove(fileName)
 
@@ -52,83 +42,148 @@ def writeInF(nameFile):
         m_file.write(f"{contName} {contFamName} {contNumber}\n")
     return m_file
 
+def delCont(file, numCont, flag):
+    with open(file) as f:
+        lines = f.readlines()
+    delStr = lines[numCont]
+    pattern = re.compile(re.escape(delStr))
+    with open(file, 'w') as f:
+        if flag == 'del':
+            for line in lines:
+                result = pattern.search(line)
+                if result is None:
+                    f.write(line)
+        elif flag == 'upd':
+            for line in lines:
+                result = pattern.search(line)
+                if result is None:
+                    f.write(line)
+                else:
+                    contName = checkInputStr('Enter name: ')
+                    contFamName = checkInputStr('Enter family name: ')
+                    contNumber = checkInputInt('Enter phone number: ')
+                    f.write((f"{contName} {contFamName} {contNumber}\n"))
+
 def openDir():
     return os.listdir('LibDir')
 
 def openFile(nameFile):
-    with open(nameFile, 'r', encoding='UTF-8') as m_file:
-        for i in m_file:
-            print(i)
+    if sum(1 for line in open(nameFile)) > 0:
+        with open(nameFile, 'r', encoding='UTF-8') as m_file:
+            for i, val in enumerate(m_file):
+                print(f"{i + 1}: {val}")
+    else:
+        print('Fail...')
 
 def choiseCommand(flag):
     comandMain = ["Open libraris", "Stop program"]
     comandLibrZero = ['Create new file', "Exit to main"]
     comandLibr = ['Create new file', "Choise file", "Exit to main"]
-    comandFile = ["Update file", 'Delete file', "Exit to main"]
+    comandFile = ["Update file", 'Delete file', "Exit to library"]
+    comandContZero = ["Add contact", 'Exit to files']
     comandContact = ["Add contact", "Update contacts", 'Delete contacts', 'Exit to files']
-    lstCmd = [comandMain, comandLibr, comandLibrZero, comandFile, comandContact]
+    lstCmd = [comandMain, comandLibr, comandLibrZero, comandFile, comandContZero, comandContact]
     print('\nCommands: ')
     for i, val in enumerate(lstCmd[flag]):
         print(f"{i + 1}: {val}")
+    return len(lstCmd[flag])
 
-def menuMain(exit):
-    if exit == True:
-        return main(True)
-    ensureDir('LibDir')
-    choiseCommand(0)
-    userAnswMain = checkInputInt('\nChoise command:')
-    if userAnswMain == 1:
-        showDir('LibDir')
+def checkComm(flag):
+    userAnsw = checkInputInt('\nSelect command:')
+    if userAnsw > flag:
+        print('Not find command!')
+        return checkComm(flag)
     else:
-        return main(True)
-    def menuLib(exit):
-        if exit == True:
-            menuLib(False)
-        userAnswLibr = checkInputInt('\nChoise command:')
-        if userAnswLibr == 1:
-            createFile(input('Enter file name: '), 'LibDir')
-            showDir('LibDir')
-            menuLib(False)
-        elif userAnswLibr == 2:
-            fileName = f"LibDir/{openDir()[checkInputInt('Enter number file: ') - 1]}"
-            openFile(fileName)
-            def menuFail(exit):
-                if exit == True:
-                    menuFail(False)
-                choiseCommand(3)
-                userAnswFile = checkInputInt('\nChoise command: ')
-                if userAnswFile == 1:
-                    def menuContact(exit):
-                        if exit == True:
-                            menuFail(False)
-                        choiseCommand(4)
-                        userAnswCont = checkInputInt('\nChoise command:')
-                        if userAnswCont == 1:
-                            writeInF(fileName)
-                            openFile(fileName)
-                            menuContact(False)
-                        elif userAnswCont == 2:
-                            pass
-                        elif userAnswCont == 3:
-                            pass
-                        else:
-                            menuFail(False)
-                elif userAnswFile == 2:
-                    deleteFile(fileName)
-                    menuLib(False)
-                else:
-                    menuLib(False)
-                menuContact(False)
-            menuFail(False)
-        menuMain(False)
-    menuLib(False)
+        return int(userAnsw)
 
-def main(exit):
-    if exit == True:
+def menuMain():
+    ensureDir('LibDir')
+    answ = checkComm(choiseCommand(0))
+    if answ == 1:
+        menuLib(False, 'LibDir')
+    else:
         print('Bye!')
-        return
-    print(f'Start program...')
-    menuMain(False)
 
-if __name__ == '__main__':
-    main(False)
+def menuLib(exit, dirname):
+    if exit == True:
+        menuMain()
+    print('Files: ')
+    if len(os.listdir(dirname)) < 1:
+        print('Not files')
+        answ = checkComm(choiseCommand(2))
+        if answ == 1:
+            createFile(input('Enter file name: '), 'LibDir')
+            menuLib(False, 'LibDir')
+        else:
+            menuMain()
+    else:
+        for i, val in enumerate(os.listdir(dirname)):
+            print(f"{i + 1} - {val}")
+        answ = checkComm(choiseCommand(1))
+        if answ == 1:
+            createFile(input('Enter file name: '), 'LibDir')
+            menuLib(False, 'LibDir')
+        elif answ == 2:
+            while True:
+                fileNum = checkInputInt('Enter number file: ')
+                if fileNum <= len(os.listdir(dirname)): break
+                else: print('Not find file!')
+            fileName = f"LibDir/{openDir()[fileNum - 1]}"
+            openFile(fileName)
+            menuFail(False, fileName)
+        else:
+            menuMain()
+
+def menuFail(exit, fileName):
+    if exit == True:
+        menuFail(False, fileName)
+    answ = checkComm(choiseCommand(3))
+    if answ == 1:
+        menuContact(False, fileName)
+    elif answ == 2:
+        deleteFile(fileName)
+        menuLib(False, 'LibDir')
+    else:
+        menuMain()
+
+def menuContact(exit, fileName):
+    if exit == True:
+        menuFail(False, fileName)
+    if sum(1 for line in open(fileName)) != 0:
+        answ = checkComm(choiseCommand(5))
+        if answ == 1:
+            writeInF(fileName)
+            openFile(fileName)
+            menuContact(False, fileName)
+        elif answ == 2:
+            openFile(fileName)
+            while True:
+                numStr = checkInputInt("Select contact: ")
+                if numStr <= sum(1 for line in open(fileName)): break
+                else: print('Not find contact!')
+            delCont(fileName, numStr - 1, 'upd')
+            menuContact(False, fileName)
+        elif answ == 3:
+            openFile(fileName)
+            while True:
+                numStr = checkInputInt("Select contact: ")
+                if numStr <= sum(1 for line in open(fileName)): break
+                else: print('Not find contact!')
+            delCont(fileName, numStr - 1, 'del')
+            openFile(fileName)
+            menuContact(False, fileName)
+        else:
+            menuFail(False, fileName)
+    else:
+        choiseCommand(5)
+        userAnswCont = checkInputInt('\nSelect command:')
+        if userAnswCont == 1:
+            writeInF(fileName)
+            openFile(fileName)
+            menuContact(False, fileName)
+        else:
+            menuFail(False, fileName)
+
+def main():
+    print(f'Start program...')
+    menuMain()
