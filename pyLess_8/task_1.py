@@ -187,3 +187,6 @@ def menuContact(exit, fileName):
 def main():
     print(f'Start program...')
     menuMain()
+
+if __name__ == '__main__':
+    main()

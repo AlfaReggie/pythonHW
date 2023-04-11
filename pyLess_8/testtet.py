@@ -1,11 +1,17 @@
-import telebot
-from pyLess_8 import task_1
+from aiogram import Bot, types
+from aiogram.dispatcher import Dispatcher
+from aiogram.utils import executor
+TOKEN = "6239166068:AAFY6cEvAp5pvqcd2W9j893GVrwug2YOJtw"
+bot = Bot(token=TOKEN)
+dp = Dispatcher(bot)
 
-bot = telebot.TeleBot('6239166068:AAFY6cEvAp5pvqcd2W9j893GVrwug2YOJtw')
+@dp.message_handler(content_types=['text'])
+async def get_text_messages(msg: types.Message):
+   if msg.text.lower() == 'привет':
+       await msg.answer('Привет!')
+   else:
+       await msg.answer('Не понимаю, что это значит.')
 
-@bot.message_handler(commands=["start"])
-def start(m, res=False):
-    bot.send_message(m.chat.id, 'Я на связи. Напиши мне что-нибудь )')
-    task_1.main()
+if __name__ == '__main__':
+   executor.start_polling(dp)
 
-bot.polling(none_stop=True, interval=0)
