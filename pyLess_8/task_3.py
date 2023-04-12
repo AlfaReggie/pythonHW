@@ -30,17 +30,13 @@ words = ["мел",
          "ров",
          "рот",
          "сон"]
-res = []
 
+res = []
 current = start
-count = len(words)
-while True:
-    if current == finish or count < 0:
-        break
+while current != finish:
     for i in range(len(words) - 1):
-        if count_words_dif(current, words[i]) == 2 or start == words[i]:
+        if count_words_dif(current, words[i]) == (len(current) - 1) or start == words[i]:
             current = words[i]
             res.append(words.pop(i))
             break
-    count -= 1
 print(res)
